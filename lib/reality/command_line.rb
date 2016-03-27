@@ -23,7 +23,9 @@ module Reality
     end
 
     def subcommand_for(object, subcommand)
-      if object.respond_to?(subcommand.to_sym)
+      if subcommand.match(/\d+/) and object.respond_to?(:[])
+        object[subcommand.to_s.to_i]
+      elsif object.respond_to?(subcommand.to_sym)
         object.send(subcommand.to_sym)
       else
         self.errors << "#{object} doesn't respond to #{subcommand}"
